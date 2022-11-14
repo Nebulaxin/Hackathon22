@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <script src="sign_up.js"></script>
     <link rel="stylesheet" href="sign_up.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,16 +12,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-<body style="background: linear-gradient(90deg, #c787bb, #7e72b0);">
+<body style="background: linear-gradient(90deg, #d160c6 25%, #7e72b0);">
 
-<input type="button" class="return" onclick="history.back();" style="" value="Return"/>
-<h1 class="header">Sign Up</h1><br/>
-<form class="form" action="" method="post">
-    <input class="input" type="text" placeholder="Name">
-    <input class="input" type="email" placeholder="E-mail">
-    <input class="input" type="password" placeholder="Password">
-    <input class="input" type="password" placeholder="Password again">
-    <button class="btn" type="submit">Sign Up</button>
+<a href="../main_page.html"><input type="button" class="return" onclick="" style="" value="Return"/></a>
+<h1 class="header" id="result">Sign Up</h1><br/>
+<form class="form" action="" method="get">
+    <input class="input" id="Name" type="text" placeholder="Name">
+    <input class="input" id="Email" type="email" placeholder="E-mail">
+    <input class="input" id="Password" type="password" placeholder="Password">
+    <input class="input" id="Password2" type="password" placeholder="Password again">
+    <button class="btn" type="submit" onclick="sendJSON()">Sign Up</button>
 </form>
 <p class="account">Already have an account? Then why register? <a href="sign_in.html">Sign In</a></p>
 </body>
