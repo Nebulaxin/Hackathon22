@@ -2,7 +2,7 @@
     text-align: center;
     font-family: 'Poppins', sans-serif;
     font-size: 85px;
-    background: linear-gradient(45deg, #4f059e, #1356ad);
+    background: linear-gradient(45deg, #ffffff, #6198e0);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: animated-gradient 5s infinite alternate-reverse;
@@ -27,11 +27,11 @@
     text-decoration: none;
     color:  black;
     margin-right: 20px;
-    transition: 1s;
+    transition: 0.75s;
 }
 
 .top-regist-a:hover{
-    color:  #630599;
+    color:  #550086;
 }
 
 .box{
