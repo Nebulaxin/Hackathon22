@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
@@ -29,23 +30,30 @@ namespace Server
             l.Start();
             while (l.IsListening)
             {
-                var context = await l.GetContextAsync();
-                using (context.Response)
-                using (var sw = new StreamWriter(context.Response.OutputStream))
+                try
                 {
-                    var resp = await Request.CreateResponse(context.Request, context.Response);
 
-                    if (resp != null && resp.CanRecieveToken)
-                        resp.SetToken(context.Request.Cookies["token"].Value);
+                    var context = await l.GetContextAsync();
+                    using (var sw = new StreamWriter(context.Response.OutputStream))
+                    {
+                        if (context.Request.HttpMethod != HttpMethod.Options.Method)
+                        {
+                            var resp = await Request.CreateResponse(context.Request, context.Response);
 
-                    await sw.WriteAsync(resp == null ? JsonUtil.BadRequest : await resp.Process());
-
-                    if (resp != null && resp.CanGiveToken)
-                        context.Response.Cookies.Add(new Cookie("token", resp.GetToken()));
-
-                    context.Response.AddHeader("Access-Control-Allow-Origin", "*");
-                    context.Response.AddHeader("Access-Control-Allow-Headers", "X-Requested-With");
-
+                            var answer = resp == null ? JsonUtil.BadRequest : await resp.Process();
+                            await sw.WriteAsync(answer);
+                            await Logger.LogAsync(answer);
+                        }
+                        context.Response.AddHeader("Access-Control-Allow-Origin", "*");
+                        context.Response.AddHeader("Access-Control-Allow-Headers", "*");
+                        context.Response.AppendHeader("cache-control", "no-cache, max-age=3600");
+                        context.Response.AddHeader("x-content-type-options", "text/plain");
+                        context.Response.StatusCode = (int)HttpStatusCode.OK;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Log(e);
                 }
             }
         }
@@ -57,7 +65,7 @@ namespace Server
 #if DEBUG
             await server.RunAsync("http://localhost:5050/");
 #else
-            await server.RunAsync(Console.ReadLine());
+            await server.RunAsync("http://185.177.218.151:5050/");
 #endif
         }
     }//http://185.177.218.151:8080/

@@ -12,14 +12,11 @@ namespace Server.Responses
 {
     public class SigninResponse : Response
     {
-        private const string command = "SELECT password FROM Users WHERE username = :username;",
-                            existsCommand = "SELECT COUNT(*) FROM Users WHERE (username = :username)";
+        private const string command = "SELECT username, password, token FROM Users";
 
-        private string username, password, token;
+        private string username, password;
 
         private bool badRequest;
-
-        public override bool CanGiveToken => true;
 
         public SigninResponse(JsonNode request) : base(request)
         {
@@ -34,24 +31,25 @@ namespace Server.Responses
             }
         }
 
-        public override string GetToken() => token;
-
         public override async Task<string> Process()
         {
             if (badRequest) return JsonUtil.BadRequest;
 
             var com = Server.Users.CreateCommand(command);
-            com.Parameters.AddWithValue("username", username);
-            var reader = await com.ExecuteReaderAsync();
+            using var reader = await com.ExecuteReaderAsync();
 
-            if (reader.FieldCount == 0)
-                return JsonUtil.CodeToJson(JsonUtil.Code.UserDontExist);
-
-            if ((string)reader["password"] != Hash.HashString64(password))
-                return JsonUtil.CodeToJson(JsonUtil.Code.WrongPassword);
-
-            token = (string)reader["token"];
-            return JsonUtil.OK;
+            while (await reader.ReadAsync())
+            {
+                if (reader.GetString(0) == username)
+                {
+                    if (password != reader.GetString(1))
+                        return JsonUtil.CodeToJson(JsonUtil.Code.WrongPassword);
+                    var result = new JsonObject();
+                    result.Add("token", reader.GetString(2));
+                    return result.OKResult();
+                }
+            }
+            return JsonUtil.CodeToJson(JsonUtil.Code.UserDontExist);
         }
     }
 }

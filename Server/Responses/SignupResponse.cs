@@ -9,10 +9,8 @@ namespace Server.Responses
         private const string command = "INSERT INTO Users (username, password, name, token) VALUES (:username, :password, :name, :token)",
                             existsCommand = "SELECT COUNT(*) FROM Users WHERE (username = :username)";
 
-        private string username, password, name, token;
+        private string username, password, name;
         private bool badRequest;
-
-        public override bool CanGiveToken => true;
 
         public SignupResponse(JsonNode request) : base(request)
         {
@@ -27,8 +25,6 @@ namespace Server.Responses
                 badRequest = true;
             }
         }
-
-        public override string GetToken() => token;
 
         public override async Task<string> Process()
         {
@@ -48,13 +44,15 @@ namespace Server.Responses
 
             var bytes = new byte[16];
             Server.Random.NextBytes(bytes);
-            token = Convert.ToBase64String(bytes);
-            token = token.Replace('/', '-').Replace('=', '_');
+            var token = Convert.ToBase64String(bytes);
+            token = token.Replace('/', '-').Replace('+', '_').Replace('=', '%');
             com.Parameters.AddWithValue("token", token);
 
             await com.ExecuteNonQueryAsync();
 
-            return JsonUtil.OK;
+            var result = new JsonObject();
+            result.Add("token", token);
+            return result.OKResult();
         }
     }
 }
