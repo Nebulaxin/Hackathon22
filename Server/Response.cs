@@ -4,26 +4,23 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using NiceJson;
 
 namespace Server
 {
     public abstract class Response
     {
-        protected HttpListenerResponse response;
-        protected NameValueCollection query;
-        private HttpListenerResponse resp;
+        protected JsonNode request;
+        public virtual bool CanGiveToken { get; }
+        public bool CanRecieveToken { get; }
 
-        public Response(NameValueCollection query, HttpListenerResponse resp)
+        public Response(JsonNode req)
         {
-            response = resp;
-            this.query = query;
+            request = req;
         }
 
-        protected Response(HttpListenerResponse resp)
-        {
-            this.resp = resp;
-        }
-
-        public abstract Task Process();
+        public abstract Task<string> Process();
+        public virtual string GetToken() => string.Empty;
+        public virtual void SetToken(string token) { }
     }
 }

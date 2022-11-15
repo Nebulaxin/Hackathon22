@@ -1,45 +1,60 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
+using NiceJson;
 
 namespace Server.Responses
 {
     public class SignupResponse : Response
     {
-        private const string command = "INSERT INTO Users (username, password, salt, name) VALUES (:username, :password, :salt, :name)";
+        private const string command = "INSERT INTO Users (username, password, name, token) VALUES (:username, :password, :name, :token)",
+                            existsCommand = "SELECT COUNT(*) FROM Users WHERE (username = :username)";
 
-        private string username, password, name, salt;
+        private string username, password, name, token;
+        private bool badRequest;
 
-        private bool process = true;
+        public override bool CanGiveToken => true;
 
-        public SignupResponse(NameValueCollection query, HttpListenerResponse resp) : base(query, resp)
+        public SignupResponse(JsonNode request) : base(request)
         {
             try
             {
-                username = query["username"];
-                password = Hash.HashString64(query["password"]);
-                salt = new Random().Next(65536).ToString("X2");
-                name = query["name"];
+                username = request["username"];
+                password = Hash.HashString64(request["password"]);
+                name = request["name"];
             }
             catch
             {
-                process = false;
-                resp.StatusCode = 400;
+                badRequest = true;
             }
         }
 
-        public override async Task Process()
+        public override string GetToken() => token;
+
+        public override async Task<string> Process()
         {
-            if (!process) return;
-            var com = Server.Users.CreateCommand(command);
+            if (badRequest) return JsonUtil.BadRequest;
+
+            var com = Server.Users.CreateCommand(existsCommand);
+            com.Parameters.AddWithValue(":username", username);
+
+            if ((long)(await com.ExecuteScalarAsync()) > 0)
+                return JsonUtil.CodeToJson(JsonUtil.Code.UserAlreadyExists);
+
+            com = Server.Users.CreateCommand(command);
             com.Parameters.AddWithValue("username", username);
+
             com.Parameters.AddWithValue("password", password);
-            com.Parameters.AddWithValue("salt", salt);
             com.Parameters.AddWithValue("name", name);
+
+            var bytes = new byte[16];
+            Server.Random.NextBytes(bytes);
+            token = Convert.ToBase64String(bytes);
+            token = token.Replace('/', '-').Replace('=', '_');
+            com.Parameters.AddWithValue("token", token);
+
             await com.ExecuteNonQueryAsync();
+
+            return JsonUtil.OK;
         }
     }
 }
