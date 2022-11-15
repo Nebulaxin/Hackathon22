@@ -1,0 +1,24 @@
+.account_top {
+  font-family: 'Poppins', sans-serif;
+  font-size: 30px;
+  text-align: center;
+}
+
+.card {
+  margin: auto;
+  width: 25%;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.card h1 {
+  text-align: center;
+  color: Black;
+
+  font-family: 'Poppins', sans-serif;
+}
+
+.card p {
+  font-family: 'Poppins', sans-serif;
+   font-size: 25px;
+  padding: 10px;
+}
