@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Server
@@ -8,6 +9,7 @@ namespace Server
     public class Server
     {
         public static Database Users { get; private set; }
+        public static Random Random { get; private set; }
 
         public Server()
         {
@@ -28,20 +30,29 @@ namespace Server
             while (l.IsListening)
             {
                 var context = await l.GetContextAsync();
-                var req = new Request(context.Request);
                 using (context.Response)
                 using (var sw = new StreamWriter(context.Response.OutputStream))
                 {
-                    var resp = req.CreateResponse(context.Response);
-                    //await resp.Process();
+                    var resp = await Request.CreateResponse(context.Request, context.Response);
 
-                    await sw.WriteAsync("da");
+                    if (resp != null && resp.CanRecieveToken)
+                        resp.SetToken(context.Request.Cookies["token"].Value);
+
+                    await sw.WriteAsync(resp == null ? JsonUtil.BadRequest : await resp.Process());
+
+                    if (resp != null && resp.CanGiveToken)
+                        context.Response.Cookies.Add(new Cookie("token", resp.GetToken()));
+
+                    context.Response.AddHeader("Access-Control-Allow-Origin", "*");
+                    context.Response.AddHeader("Access-Control-Allow-Headers", "X-Requested-With");
+
                 }
             }
         }
 
         public static async Task Main()
         {
+            Random = new Random();
             var server = new Server();
 #if DEBUG
             await server.RunAsync("http://localhost:5050/");

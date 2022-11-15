@@ -1,40 +1,57 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Data;
+using System.Data.SQLite;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using NiceJson;
 
 namespace Server.Responses
 {
     public class SigninResponse : Response
     {
-        private const string command = "INSERT INTO Users (username, password, salt, name) VALUES (:username, :password, :salt, :name)";
+        private const string command = "SELECT password FROM Users WHERE username = :username;",
+                            existsCommand = "SELECT COUNT(*) FROM Users WHERE (username = :username)";
 
-        private string username, password;
+        private string username, password, token;
 
-        private bool process = true;
+        private bool badRequest;
 
-        public SigninResponse(NameValueCollection query, HttpListenerResponse resp) : base(query, resp)
+        public override bool CanGiveToken => true;
+
+        public SigninResponse(JsonNode request) : base(request)
         {
             try
             {
-                username = query["username"];
-                password = Hash.HashString64(query["password"]);
+                username = request["username"];
+                password = Hash.HashString64(request["password"]);
             }
             catch
             {
-                process = false;
-                resp.StatusCode = 400;
+                badRequest = true;
             }
         }
 
-        public override async Task Process()
-        {
+        public override string GetToken() => token;
 
-            if (!process) return;
-            var com = Server.Users.CreateCommand("");
-            await com.ExecuteNonQueryAsync();
+        public override async Task<string> Process()
+        {
+            if (badRequest) return JsonUtil.BadRequest;
+
+            var com = Server.Users.CreateCommand(command);
+            com.Parameters.AddWithValue("username", username);
+            var reader = await com.ExecuteReaderAsync();
+
+            if (reader.FieldCount == 0)
+                return JsonUtil.CodeToJson(JsonUtil.Code.UserDontExist);
+
+            if ((string)reader["password"] != Hash.HashString64(password))
+                return JsonUtil.CodeToJson(JsonUtil.Code.WrongPassword);
+
+            token = (string)reader["token"];
+            return JsonUtil.OK;
         }
     }
 }
