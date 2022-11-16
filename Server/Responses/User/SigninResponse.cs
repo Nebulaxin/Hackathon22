@@ -33,23 +33,23 @@ namespace Server.Responses
 
         public override async Task<string> Process()
         {
-            if (badRequest) return JsonUtil.BadRequest;
+            if (badRequest) return Util.BadRequest;
 
             var com = Server.Users.CreateCommand(command);
             using var reader = await com.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
-                if (reader.GetString(0) == username)
-                {
-                    if (password != reader.GetString(1))
-                        return JsonUtil.CodeToJson(JsonUtil.Code.WrongPassword);
-                    var result = new JsonObject();
-                    result.Add("token", reader.GetString(2));
-                    return result.OKResult();
-                }
+                if (reader.GetString(0) != username) continue;
+
+                if (password != reader.GetString(1))
+                    return Util.CodeToJson(Util.Code.WrongPassword);
+                var result = new JsonObject();
+                result.Add("token", reader.GetString(2));
+                return result.OKResult();
+
             }
-            return JsonUtil.CodeToJson(JsonUtil.Code.UserDontExist);
+            return Util.CodeToJson(Util.Code.UserDoesntExist);
         }
     }
 }

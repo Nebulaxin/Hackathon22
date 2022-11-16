@@ -18,7 +18,7 @@ namespace Server.Responses
         public override async Task<string> Process()
         {
             await Task.CompletedTask;
-            return JsonUtil.OK;
+            return Util.OK;
         }
     }
 }

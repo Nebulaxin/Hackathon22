@@ -28,13 +28,13 @@ namespace Server.Responses
 
         public override async Task<string> Process()
         {
-            if (badRequest) return JsonUtil.BadRequest;
+            if (badRequest) return Util.BadRequest;
 
             var com = Server.Users.CreateCommand(existsCommand);
             com.Parameters.AddWithValue(":username", username);
 
             if ((long)(await com.ExecuteScalarAsync()) > 0)
-                return JsonUtil.CodeToJson(JsonUtil.Code.UserAlreadyExists);
+                return Util.CodeToJson(Util.Code.UserAlreadyExists);
 
             com = Server.Users.CreateCommand(command);
             com.Parameters.AddWithValue("username", username);
@@ -45,7 +45,7 @@ namespace Server.Responses
             var bytes = new byte[16];
             Server.Random.NextBytes(bytes);
             var token = Convert.ToBase64String(bytes);
-            token = token.Replace('/', '-').Replace('+', '_').Replace('=', '%');
+            token = token.Replace('/', '-').Replace('+', '_').Replace('=', ',');
             com.Parameters.AddWithValue("token", token);
 
             await com.ExecuteNonQueryAsync();

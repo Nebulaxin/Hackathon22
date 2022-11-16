@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NiceJson;
 
 namespace Server
 {
-    public static class JsonUtil
+    public static class Util
     {
         public static string OK => "{\"status\":0}";
         public static string BadRequest => "{\"status\":1}";
@@ -24,13 +25,19 @@ namespace Server
 
         public static string OKResult(this JsonObject obj) => obj.AddCode(Code.OK).ToJsonString();
 
+        private static Regex badSymbols = new Regex("/[^\\(a-zA-Z0-9_\\)]/m");
+        public static bool ContainsBadSymbols(string s) => badSymbols.Match(s).Success;
+
         public enum Code
         {
             OK = 0,
             BadRequest = 1,
             UserAlreadyExists = 2,
-            UserDontExist = 3,
+            UserDoesntExist = 3,
             WrongPassword = 4,
+            AccessViolation = 5,
+            TagDoesntExist = 6,
+            BadSymbols = 7,
         }
     }
 }
