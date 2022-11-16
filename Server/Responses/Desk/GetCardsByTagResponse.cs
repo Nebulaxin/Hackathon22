@@ -12,10 +12,11 @@ namespace Server.Responses
 {
     public class GetCardsByTagResponse : Response
     {
-        private const string commandGet = "SELECT * FROM Cards WHERE (desk = :id) AND (tag = :tag)";
+        private const string commandGet = "SELECT * FROM Cards WHERE (desk = :id) AND (tag = :tag)",
+                        getDesks = "SELECT name, admin FROM Desks WHERE (id = :id)";
 
         private bool badRequest;
-        private string tag;
+        private string tag, token;
         private long id;
         public GetCardsByTagResponse(JsonNode node) : base(node)
         {
@@ -23,6 +24,7 @@ namespace Server.Responses
             {
                 id = request["id"];
                 tag = request["tag"];
+                token = request["token"];
             }
             catch
             {
@@ -34,24 +36,38 @@ namespace Server.Responses
         {
             if (badRequest) return Util.BadRequest;
 
-            var com = Server.Cards.CreateCommand(commandGet);
+            if (Util.ContainsBadSymbols(tag)) return Util.BadSymbols;
+
+            var com = Server.Desks.CreateCommand(getDesks);
+            com.Parameters.AddWithValue("id", id);
+            using var reader = await com.ExecuteReaderAsync();
+
+            if (!await reader.ReadAsync()) return Util.BadRequest;
+            var deskName = reader.GetString(0);
+            var isAdmin = reader.GetString(1) == token;
+
+            com = Server.Cards.CreateCommand(commandGet);
             com.Parameters.AddWithValue("id", id);
             com.Parameters.AddWithValue("tag", tag);
-            using var reader = await com.ExecuteReaderAsync();
-            JsonArray tags = new JsonArray();
-            while (await reader.ReadAsync())
+            using var reader2 = await com.ExecuteReaderAsync();
+            JsonArray cards = new JsonArray();
+            while (await reader2.ReadAsync())
             {
                 var card = new JsonObject();
-                card.Add("id", reader.GetInt64(0));
-                card.Add("name", reader.GetString(4));
-                card.Add("description", reader.GetString(5));
-                card.Add("created", reader.GetInt64(6));
-                card.Add("expires", reader.GetInt64(7));
-                card.Add("status", reader.GetString(8));
+                card.Add("id", reader2.GetInt64(0));
+                card.Add("tag", reader2.GetString(2));
+                card.Add("name", reader2.GetString(4));
+                card.Add("description", reader2.GetString(5));
+                card.Add("created", reader2.GetInt64(6));
+                card.Add("expires", reader2.GetInt64(7));
+                card.Add("status", reader2.GetString(8));
+                cards.Add(card);
             }
 
             var result = new JsonObject();
-            result.Add("cards", tags);
+            result.Add("cards", cards);
+            result.Add("name", deskName);
+            result.Add("isAdmin", deskName);
             result.Add("now", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
 
             return result.OKResult();

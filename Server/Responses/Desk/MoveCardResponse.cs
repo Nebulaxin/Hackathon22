@@ -34,6 +34,7 @@ namespace Server.Responses
         public override async Task<string> Process()
         {
             if (badRequest) return Util.BadRequest;
+
             var com = Server.Cards.CreateCommand(commandGet);
             com.Parameters.AddWithValue("id", id);
             using var reader = await com.ExecuteReaderAsync();

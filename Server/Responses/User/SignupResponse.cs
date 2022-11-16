@@ -30,6 +30,10 @@ namespace Server.Responses
         {
             if (badRequest) return Util.BadRequest;
 
+            if (Util.ContainsBadSymbols(username)) return Util.BadSymbols;
+            if (Util.ContainsBadSymbols(password)) return Util.BadSymbols;
+
+
             var com = Server.Users.CreateCommand(existsCommand);
             com.Parameters.AddWithValue(":username", username);
 

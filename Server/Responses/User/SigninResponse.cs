@@ -35,6 +35,9 @@ namespace Server.Responses
         {
             if (badRequest) return Util.BadRequest;
 
+            if (Util.ContainsBadSymbols(username)) return Util.BadSymbols;
+            if (Util.ContainsBadSymbols(password)) return Util.BadSymbols;
+
             var com = Server.Users.CreateCommand(command);
             using var reader = await com.ExecuteReaderAsync();
 

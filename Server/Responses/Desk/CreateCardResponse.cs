@@ -39,6 +39,10 @@ namespace Server.Responses
         {
             if (badRequest) return Util.BadRequest;
 
+            if (Util.ContainsBadSymbols(tag)) return Util.BadSymbols;
+            if (Util.ContainsBadSymbols(name)) return Util.BadSymbols;
+            if (Util.ContainsBadSymbols(tag)) return Util.BadSymbols;
+
 
             var com = Server.Desks.CreateCommand(getAdmin);
             com.Parameters.AddWithValue("id", id);
@@ -53,7 +57,7 @@ namespace Server.Responses
             com.Parameters.AddWithValue("tag", tag);
             com.Parameters.AddWithValue("admin", adminToken);
             com.Parameters.AddWithValue("name", name);
-            com.Parameters.AddWithValue("description", name);
+            com.Parameters.AddWithValue("description", description);
 
             var now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             com.Parameters.AddWithValue("created", now);

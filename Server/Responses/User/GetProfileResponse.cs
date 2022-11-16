@@ -34,20 +34,33 @@ namespace Server.Responses
 
             var com = Server.Users.CreateCommand(getUsersCommand);
             com.Parameters.AddWithValue("token", token);
-            using var reader = await com.ExecuteReaderAsync();
+            string username, name;
+            using (var reader = await com.ExecuteReaderAsync())
+            {
+                if (!await reader.ReadAsync()) return Util.CodeToJson(Util.Code.UserDoesntExist);
+                username = reader.GetString(0);
+                name = reader.GetString(1);
+            }
 
-            if (!await reader.ReadAsync()) return Util.CodeToJson(Util.Code.UserDoesntExist);
-            var username = reader.GetString(0);
-            var name = reader.GetString(1);
-
-
+            JsonArray desks = new JsonArray();
+            com = Server.Desks.CreateCommand(getDesksCommand);
+            com.Parameters.AddWithValue("admin", token);
+            using (var reader = await com.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    var desk = new JsonObject();
+                    desk.Add("id", reader.GetInt64(0));
+                    desk.Add("name", reader.GetString(1));
+                    desks.Add(desk);
+                }
+            }
 
             var result = new JsonObject();
             result.Add("username", username);
             result.Add("name", name);
+            result.Add("desks", desks);
             return result.OKResult();
-
-
         }
     }
 }

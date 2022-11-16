@@ -13,8 +13,9 @@ namespace Server.Responses
     public class GetAllCardsResponse : Response
     {
         private const string commandGet = "SELECT * FROM Cards WHERE (desk = :id)",
-                            getDesk = "SELECT * FROM Desks WHERE (id = :id)";
+                            getDesk = "SELECT name, admin FROM Desks WHERE (id = :id)";
 
+        private string token;
         private bool badRequest;
         private long id;
         public GetAllCardsResponse(JsonNode node) : base(node)
@@ -22,6 +23,7 @@ namespace Server.Responses
             try
             {
                 id = request["id"];
+                token = request["token"];
             }
             catch
             {
@@ -38,7 +40,8 @@ namespace Server.Responses
             using var reader = await com.ExecuteReaderAsync();
 
             if (!await reader.ReadAsync()) return Util.BadRequest;
-            var deskName = reader.GetString(1);
+            var deskName = reader.GetString(0);
+            var isAdmin = reader.GetString(1) == token;
 
             com = Server.Cards.CreateCommand(commandGet);
             com.Parameters.AddWithValue("id", id);
@@ -61,6 +64,7 @@ namespace Server.Responses
             var result = new JsonObject();
             result.Add("cards", allCards);
             result.Add("name", deskName);
+            result.Add("isAdmin", deskName);
             result.Add("now", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
 
             return result.OKResult();
