@@ -1,25 +1,25 @@
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 16px;
   text-color: White;
 }
 a {
-  color: black
+  color: black;
 }
 * {
   box-sizing: border-box;
 }
 
-.account{
-   margin-top: 45px;
-   text-align: center;
+.account {
+  margin-top: 45px;
+  text-align: center;
 }
 
 .header {
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-    font-size: 65px;
-    color: #ffffff;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 65px;
+  color: #ffffff;
 }
 
 .form {
@@ -28,6 +28,7 @@ a {
   padding: 25px;
   background-color: rgba(255, 255, 255, 0.1);
   margin-bottom: 25px;
+  border-radius: 15px;
 }
 
 .input {
@@ -38,10 +39,11 @@ a {
   border: 1px solid #ccc;
   font-family: inherit;
   font-size: 16px;
+  border-radius: 10px;
 }
 
 .btn {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 
   display: block;
   width: 100%;
@@ -54,6 +56,8 @@ a {
   font-size: 16px;
   color: #fff;
   transition: 1s;
+  border-radius: 10px;
+  margin-top: 25px;
 }
 
 .btn:hover {
@@ -62,7 +66,7 @@ a {
 
 .return {
   min-width: 100px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   appearance: none;
   border: 0;
   border-radius: 5px;
@@ -78,5 +82,5 @@ a {
 
 .return:hover {
   background: #633792;
-  box-shadow: 3px 3px rgb(66, 35, 136)
+  box-shadow: 3px 3px rgb(66, 35, 136);
 }

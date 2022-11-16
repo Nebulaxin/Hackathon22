@@ -26,7 +26,7 @@
       <div class="task-button-block">
         <button id="task-button" onclick="createTask()">Create new card</button> 
         <input class="input" id="tag" type="text" placeholder="Tag" />
-        <button id="task-button" onclick="">Find</button> 
+        <button id="task-button" class="find" onclick="Find()">Find</button> 
         </div>
     </div>
 
@@ -36,24 +36,16 @@
       <div class="kanban-board">
           <div class="kanban-block" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
               <strong>To Do</strong>
-
-              <div class="task" id="task1" draggable="true" ondragstart="drag(event)">
-                  <span>Task 1</span>
-              </div>
-              
-              <div class="task" id="task2" draggable="true" ondragstart="drag(event)" style="word-wrap: break-word;">
-                <span style="font-size: 30px;">Task 2</span><br>
-                <span>The description</span><br/>
-                <a id="task2_" onclick="deleteTask(event);" style="color: black; cursor: pointer; text-decoration: underline;">Delete</a>
-            </div>
             
           </div>
           <div class="kanban-block" id="inprogress" ondrop="drop(event)" ondragover="allowDrop(event)">
               <strong>In Progress</strong>
           </div>
+
           <div class="kanban-block" id="done" ondrop="drop(event)" ondragover="allowDrop(event)">
               <strong>Done</strong>
           </div>
+
           <div class="create-new-task-block" id="create-new-task-block">
               <strong>New Task</strong>
               <span class="form-row">
@@ -66,8 +58,12 @@
               </span>
               <span class="form-row">
                 <label class="form-row-label" for="task-name">Time(days)</label>
-                <input class="form-row-input" type="text" name="task-name" id="task-name">
+                <input class="form-row-input" type="text" name="task-time" id="task-time">
             </span>
+            <span class="form-row">
+              <label class="form-row-label" for="task-name">Tag</label>
+              <input class="form-row-input" type="text" name="task-tag" id="task-tag">
+          </span>
               <span class="form-row-buttons">
                   <button id="save-button" onclick="saveTask()">Save</span>
                   <button id="cancel-button" onclick="createTask()">Cancel</span>
