@@ -1,26 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <script src="../js/desk.js"></script>
-    <link rel="stylesheet" href="../css/desk_page.css">
-    <link rel="stylesheet" href="../../../css/main.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <title>Lambda</title>
-</head>
-<body style="background: linear-gradient(90deg, #a30293 30%, #5436ce);">
+    <link rel="stylesheet" href="../css/desk_page.css" />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8" />
+    <title>Desk Lambda</title>
+  </head>
+  <body style="background-color: white;" onload="sendJSON()">
     <div class="header">
-    <a><img class="ProfileImg" src="../../img/tarik-haiga-BxELNNMN88Y-unsplash.jpg"></a>
-    <a><h2 class="username">Slava Buhoy</h2></a>
-    <div class="exit"><a href="" style="color: Black; text-decoration: none;"><h2>Exit</h2></a></div>
+      <a href="profile.html"
+        ><img
+          class="ProfileImg"
+          src="../../img/tarik-haiga-BxELNNMN88Y-unsplash.jpg"
+      /></a>
+      <a href="profile.html" style="color: Black"
+        ><h2 class="username"></h2></a
+      >
+      
+    </div>
 
-</div>
-    <div class="kanban" style="margin: auto;">
-	</div>
-	<script src="../../../js/main.js" type="module"></script>
+    <h1 style="text-align: center; font-size: 45px;" id="name"></h1>
+    <div class="container">
 
+      <div class="kanban-board">
+          <div class="kanban-block" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
+              <strong>To Do</strong>
+            
+          </div>
+          <div class="kanban-block" id="inprogress" ondrop="drop(event)" ondragover="allowDrop(event)">
+              <strong>In Progress</strong>
+          </div>
 
-</body>
+          <div class="kanban-block" id="done" ondrop="drop(event)" ondragover="allowDrop(event)">
+              <strong>Done</strong>
+          </div>
+
+          <div class="create-new-task-block" id="create-new-task-block">
+              <strong>New Task</strong>
+              <span class="form-row">
+                  <label class="form-row-label" for="task-name">Task</label>
+                  <input class="form-row-input" type="text" name="task-name" id="task-name">
+              </span>
+              <span class="form-row">
+                  <label class="form-row-label" for="task-name">Description</label>
+                  <textarea class="form-row-input" name="task-description" id="task-description" cols="70" rows="10"></textarea>
+              </span>
+              <span class="form-row">
+                <label class="form-row-label" for="task-name">Time(days)</label>
+                <input class="form-row-input" type="text" name="task-time" id="task-time">
+            </span>
+            <span class="form-row">
+              <label class="form-row-label" for="task-name">Tag</label>
+              <input class="form-row-input" type="text" name="task-tag" id="task-tag">
+          </span>
+              <span class="form-row-buttons">
+                  <button id="save-button" onclick="saveTask()">Save</span>
+                  <button id="cancel-button" onclick="createTask()">Cancel</span>
+              </span>
+          </div>
+      </div>
+  </div>
+  <h1 style="text-align: center;">To add a participant, send him a page link
+  </h1>
+  </body>
 </html>

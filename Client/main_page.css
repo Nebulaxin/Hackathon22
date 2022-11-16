@@ -1,41 +1,40 @@
 .header {
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-    font-size: 85px;
-    background: linear-gradient(45deg, #ffffff, #6198e0);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: animated-gradient 5s infinite alternate-reverse;
-    background-size: 200%;
-    background-position: -200%;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 85px;
+  background: linear-gradient(45deg, rgb(82, 211, 168), #6198e0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: animated-gradient 5s infinite alternate-reverse;
+  background-size: 200%;
+  background-position: -200%;
 }
 
-@keyframes animated-gradient{
-  to{
+@keyframes animated-gradient {
+  to {
     background-position: 200%;
   }
 }
 
-
 .top-regist {
-    text-align: right;
-    font-family: 'Poppins', sans-serif;
-    font-size: 20px;
+  text-align: right;
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
 }
 
-.top-regist-a{
-    text-decoration: none;
-    color:  black;
-    margin-right: 20px;
-    transition: 0.75s;
+.top-regist-a {
+  text-decoration: none;
+  color: black;
+  margin-right: 20px;
+  transition: 0.75s;
 }
 
-.top-regist-a:hover{
-    color:  #550086;
+.top-regist-a:hover {
+  color: #550086;
 }
 
-.box{
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-    font-size: 30px;
+.box {
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 30px;
 }

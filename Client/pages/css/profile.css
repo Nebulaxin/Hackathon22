@@ -1,23 +1,259 @@
-.account_top {
-  font-family: 'Poppins', sans-serif;
-  font-size: 30px;
-  text-align: center;
+* {
+  color: rgb(66, 60, 60);
+}
+
+.ProfileImg {
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  margin-top: 14px;
+  margin-bottom: 20px;
+  margin-left: 3%;
+}
+
+.username {
+  font-family: "Poppins", sans-serif;
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: top;
+  color: rgb(66, 60, 60);
+}
+
+.header {
+  display: inline-block;
+  width: 100%;
+}
+
+.exit {
+  float: right;
+  font-family: "Poppins", sans-serif;
+  margin-right: 4%;
+}
+/* стилизация содержимого страницы */
+body {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* свойства модального окна по умолчанию */
+.modal {
+  position: fixed; /* фиксированное положение */
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5); /* цвет фона */
+  z-index: 1050;
+  opacity: 0; /* по умолчанию модальное окно прозрачно */
+  -webkit-transition: opacity 200ms ease-in;
+  -moz-transition: opacity 200ms ease-in;
+  transition: opacity 200ms ease-in; /* анимация перехода */
+  pointer-events: none; /* элемент невидим для событий мыши */
+  margin: 0;
+  padding: 0;
+}
+/* при отображении модального окно */
+.modal:target {
+  opacity: 1; /* делаем окно видимым */
+  pointer-events: auto; /* элемент видим для событий мыши */
+  overflow-y: auto; /* добавляем прокрутку по y, когда элемент не помещается на страницу */
+}
+/* ширина модального окна и его отступы от экрана */
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 10px;
+}
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 500px;
+    margin: 30px auto; /* для отображения модального окна по центру */
+  }
+}
+/* свойства для блока, содержащего контент модального окна */
+.modal-content {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  outline: 0;
+}
+@media (min-width: 768px) {
+  .modal-content {
+    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  }
+}
+/* свойства для заголовка модального окна */
+.modal-header {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: 1px solid #eceeef;
+}
+.modal-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 1.5;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+/* свойства для кнопки "Закрыть" */
+.close {
+  float: right;
+  font-family: sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: 0.5;
+  text-decoration: none;
+}
+/* свойства для кнопки "Закрыть" при нахождении её в фокусе или наведении */
+.close:focus,
+.close:hover {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0.75;
+}
+/* свойства для блока, содержащего основное содержимое окна */
+.modal-body {
+  position: relative;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 15px;
+  overflow: auto;
+}
+
+.desks {
+  overflow: hidden;
+  display: flex;
+
+  flex-direction: row;
+
+  justify-content: flex-start;
 }
 
 .card {
-  margin: auto;
-  width: 25%;
-  background-color: rgba(255, 255, 255, 0.1);
+  margin: auto 20px;
+  min-width: 23%;
+  background-color: rgba(11, 175, 121, 0.384);
+  word-wrap: break-word;
 }
 
 .card h1 {
   text-align: center;
-  color: Black;
-  font-family: 'Poppins', sans-serif;
+  color: rgb(66, 60, 60);
+  font-family: "Poppins", sans-serif;
 }
 
 .card p {
-  font-family: 'Poppins', sans-serif;
-   font-size: 25px;
-  padding: 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: 25px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.form {
+  margin: auto;
+  max-width: 355px;
+  padding: 25px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-bottom: 25px;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+  font-size: 16px;
+}
+
+.btn {
+  font-family: "Poppins", sans-serif;
+
+  display: block;
+  width: 100%;
+  padding: 8px 8px;
+
+  border: 0;
+  background-color: #1c6596;
+  cursor: pointer;
+
+  font-size: 16px;
+  color: #fff;
+  transition: 1s;
+}
+
+.btn:hover {
+  background-color: #1677b8;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: #000;
+  background-image: -webkit-linear-gradient(
+    left,
+    rgb(90, 76, 76),
+    rgb(27, 26, 26),
+    rgb(82, 72, 72)
+  );
+  background-image: -moz-linear-gradient(
+    left,
+    rgb(94, 79, 79),
+    rgb(43, 39, 39),
+    rgb(88, 78, 78)
+  );
+  background-image: -ms-linear-gradient(
+    left,
+    rgb(95, 80, 80),
+    rgb(36, 32, 32),
+    rgb(73, 67, 67)
+  );
+  background-image: -o-linear-gradient(
+    left,
+    rgb(75, 64, 64),
+    rgb(58, 53, 53),
+    rgb(77, 70, 70)
+  );
+}
+
+#a_card {
+  text-decoration: none;
+}
+
+.right {
+  text-decoration: none;
 }

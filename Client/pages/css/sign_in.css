@@ -1,33 +1,34 @@
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 16px;
   text-color: White;
 }
 a {
-  color: black
+  color: black;
 }
 * {
   box-sizing: border-box;
 }
 
-.account{
-   margin-top: 45px;
-   text-align: center;
+.account {
+  margin-top: 45px;
+  text-align: center;
 }
 
 .header {
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-    font-size: 65px;
-    color: #ffffff;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 65px;
+  color: rgb(66, 60, 60);
 }
 
 .form {
   margin: auto;
   max-width: 355px;
   padding: 25px;
-  background-color: rgba(255, 255, 255, 0.1);
-  margin-bottom: 25px;
+  background-color: rgba(11, 175, 121, 0.384);
+  margin-bottom: 55px;
+  border-radius: 15px;
 }
 
 .input {
@@ -38,35 +39,38 @@ a {
   border: 1px solid #ccc;
   font-family: inherit;
   font-size: 16px;
+  border-radius: 10px;
 }
 
 .btn {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 
   display: block;
   width: 100%;
   padding: 8px 8px;
 
   border: 0;
-  background-color: #4f059e;
+  background-color: #1c6596;
   cursor: pointer;
 
   font-size: 16px;
   color: #fff;
   transition: 1s;
+  border-radius: 10px;
+  margin-top: 25px;
 }
 
 .btn:hover {
-  background-color: #633792;
+  background-color: #1677b8;
 }
 
 .return {
   min-width: 100px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   appearance: none;
   border: 0;
-  border-radius: 5px;
-  background: #4f059e;
+  border-radius: 10px;
+  background-color: #1c6596;
   color: #fff;
   padding: 8px 16px;
   font-size: 1rem;
@@ -77,6 +81,5 @@ a {
 }
 
 .return:hover {
-  background: #633792;
-  box-shadow: 3px 3px rgb(66, 35, 136)
+  background-color: #1677b8;
 }
