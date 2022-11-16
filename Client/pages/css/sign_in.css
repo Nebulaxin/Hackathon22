@@ -1,34 +1,48 @@
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Heebo", sans-serif;
   font-size: 16px;
-  text-color: White;
 }
 a {
-  color: black;
+  color: white;
 }
 * {
   box-sizing: border-box;
 }
 
 .account {
+  color: white;
   margin-top: 45px;
   text-align: center;
 }
 
 .header {
   text-align: center;
-  font-family: "Poppins", sans-serif;
+  font-family: "Rubik Mono One", sans-serif;
   font-size: 65px;
-  color: #ffffff;
+  color: rgb(255, 255, 255);
+  text-shadow: 10px 10px 30px #2400ff, -10px -10px 30px #7e2bd9;
+  -webkit-text-stroke: 1px #fc78ff;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 5px;
 }
 
 .form {
   margin: auto;
   max-width: 355px;
   padding: 25px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #22232738;
   margin-bottom: 25px;
   border-radius: 15px;
+  box-shadow: 20px 20px 40px #0077ff, -20px -20px 40px #0cefff,
+    20px -20px 40px #114dce, -20px 20px 40px #09c4dd;
+  transition: 1s;
+}
+
+.form:hover {
+  background-color: #72768038;
+
+  box-shadow: 5px 5px 20px #0077ff, -5px -5px 20px #0cefff,
+    5px -5px 20px #114dce, -5px 5px 20px #09c4dd;
 }
 
 .input {
@@ -36,21 +50,22 @@ a {
   width: 100%;
   padding: 8px 10px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
+  border: 0px solid rgb(0, 0, 0);
   font-family: inherit;
   font-size: 16px;
   border-radius: 10px;
+  background-color: rgb(255, 255, 255);
 }
 
 .btn {
-  font-family: "Poppins", sans-serif;
+  font-family: "Heebo", sans-serif;
 
   display: block;
   width: 100%;
   padding: 8px 8px;
 
   border: 0;
-  background-color: #4f059e;
+  background-color: #0077ff;
   cursor: pointer;
 
   font-size: 16px;
@@ -61,16 +76,16 @@ a {
 }
 
 .btn:hover {
-  background-color: #633792;
+  background-color: #0db7c4;
 }
 
 .return {
   min-width: 100px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Heebo", sans-serif;
   appearance: none;
   border: 0;
-  border-radius: 5px;
-  background: #4f059e;
+  border-radius: 10px;
+  background-color: #0077ff;
   color: #fff;
   padding: 8px 16px;
   font-size: 1rem;
@@ -81,6 +96,5 @@ a {
 }
 
 .return:hover {
-  background: #633792;
-  box-shadow: 3px 3px rgb(66, 35, 136);
+  background-color: #0db7c4;
 }

@@ -25,6 +25,7 @@ body {
 
 .task-button-block {
   float: right;
+  display: block;
   font-family: "Poppins", sans-serif;
   margin-right: 4%;
 }
@@ -68,23 +69,74 @@ body {
 }
 
 #todo {
-  background-color: #ffffff1f;
+  color: white;
+  margin-right: 25px;
+  background-color: #22232738;
+  border-radius: 15px;
+  box-shadow: 5px 5px 5px #0077ff, -5px -5px 5px #0cefff, 5px -5px 5px #114dce,
+    -5px 5px 5px #09c4dd;
+  transition: 0.3s;
+}
+
+#todo:hover {
+  background-color: #63656d38;
+  border-radius: 15px;
+  box-shadow: 1px 1px 1px #0077ff, -1px -1px 1px #0cefff, 1px -1px 1px #114dce,
+    -1px 1px 1px #09c4dd;
 }
 
 #inprogress {
-  background-color: #ffffff1f;
-  /* display: none; */
+  color: white;
+  margin-right: 25px;
+  background-color: #22232738;
+  border-radius: 15px;
+  box-shadow: 5px 5px 5px #0077ff, -5px -5px 5px #0cefff, 5px -5px 5px #114dce,
+    -5px 5px 5px #09c4dd;
+  transition: 0.3s;
+}
+
+#inprogress:hover {
+  background-color: #63656d38;
+  border-radius: 15px;
+  box-shadow: 1px 1px 1px #0077ff, -1px -1px 1px #0cefff, 1px -1px 1px #114dce,
+    -1px 1px 1px #09c4dd;
 }
 
 #done {
-  background-color: #ffffff1f;
-  /* display: none; */
+  color: white;
+  background-color: #22232738;
+  border-radius: 15px;
+  box-shadow: 5px 5px 5px #0077ff, -5px -5px 5px #0cefff, 5px -5px 5px #114dce,
+    -5px 5px 5px #09c4dd;
+  transition: 0.3s;
+}
+
+#done:hover {
+  background-color: #63656d38;
+  border-radius: 15px;
+  box-shadow: 1px 1px 1px #0077ff, -1px -1px 1px #0cefff, 1px -1px 1px #114dce,
+    -1px 1px 1px #09c4dd;
 }
 
 .task {
-  background-color: rgba(255, 255, 255, 0.185);
+  color: Black;
+  background-color: #85899c6c;
+  border-radius: 15px;
+  border: 0rem solid black;
+
+  transition: 0.3s;
   margin: 0.2rem 0rem 0.3rem 0rem;
-  border-radius: 0.2rem;
+  padding: 0.5rem 0.2rem 0.5rem 2rem;
+}
+
+.task:hover {
+  color: Black;
+  background-color: #6262668a;
+  border-radius: 15px;
+  border: 0rem solid black;
+
+  transition: 0.3s;
+  margin: 0.2rem 0rem 0.3rem 0rem;
   padding: 0.5rem 0.2rem 0.5rem 2rem;
 }
 
@@ -103,7 +155,6 @@ body {
 
 .create-new-task-block {
   display: none;
-  /* display: flex; */
   background: #ffffff1f;
   width: 64.4%;
   flex-direction: column;
@@ -116,7 +167,7 @@ body {
 }
 
 .form-row-label {
-  width: 15%;
+  width: 20%;
   padding: 0.2rem;
   padding-right: 0.5rem;
   border: 0.1rem solid rgba(49, 47, 47, 0.575);

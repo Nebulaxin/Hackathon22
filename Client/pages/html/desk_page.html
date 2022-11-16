@@ -13,7 +13,7 @@
     <meta charset="UTF-8" />
     <title>Desk Lambda</title>
   </head>
-  <body style="background: linear-gradient(90deg, #a30293 30%, #5436ce)" onload="sendJSON()">
+  <body style="background-color: #222327;" onload="sendJSON()">
     <div class="header">
       <a href="profile.html"
         ><img
@@ -23,11 +23,17 @@
       <a href="profile.html" style="color: Black"
         ><h2 class="username"></h2></a
       >
+
+      <div style=" float: right;
+        display: block;
+        font-family: 'Poppins', sans-serif;
+        margin-right: 4%;"> <input class="input" id="tag" type="text" placeholder="Tag"/>
+          <button id="task-button" class="find" onclick="Find()">Find</button> </div>
+
       <div class="task-button-block">
-        <button id="task-button" onclick="createTask()">Create new card</button> 
-        <input class="input" id="tag" type="text" placeholder="Tag" />
-        <button id="task-button" class="find" onclick="Find()">Find</button> 
+        <button id="task-button" onclick="createTask()" style="margin-top: 10px">Create new card</button> 
         </div>
+        
     </div>
 
     <h1 style="text-align: center; font-size: 45px;" id="name"></h1>

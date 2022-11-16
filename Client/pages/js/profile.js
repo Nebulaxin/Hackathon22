@@ -18,11 +18,12 @@ function sendJSON() {
 
         for (var i = 0; i < desks.length; i++) {
           todo.innerHTML += `
+          <a id="a_card" href="desk_page.html?id=${desks[i].id}">
                       <div class="card">
-                      <h1>
-                        <a id="a_card" href="desk_page.html?id=${desks[i].id}" style="color: black">${desks[i].name}</a>
+                      <h1   style="rgb(15, 14, 14)">
+                        ${desks[i].name}
                       </h1>
-                    </div>
+                    </div></a>
               `
 
 
