@@ -20,17 +20,11 @@ function sendJSON() {
 
     xhr.send();
 
-    if (find) {
-
-    }
-    else {
-
-    }
     var xhr2 = new XMLHttpRequest();
     let name = document.querySelector('#name');
     var url = find
-        ? "http://185.177.218.151:5050/getCardsByTag?data=" + encodeURIComponent(JSON.stringify({ "token": localStorage.getItem('token'), "id": id, "tag": urlParams.get("findTag") }))
-        : "http://185.177.218.151:5050/getCards?data=" + encodeURIComponent(JSON.stringify({ "token": localStorage.getItem('token'), "id": id }));
+        ? "http://185.177.218.151:5050/getCardsByTag?data=" + encodeURIComponent(JSON.stringify({ "token": localStorage.getItem('token'), "id": parseInt(id), "tag": urlParams.get("findTag") }))
+        : "http://185.177.218.151:5050/getCards?data=" + encodeURIComponent(JSON.stringify({ "token": localStorage.getItem('token'), "id": parseInt(id) }));
     xhr2.open("GET", url, true);
     xhr2.setRequestHeader("Content-Type", "application/json");
     xhr2.onreadystatechange = function () {
@@ -204,9 +198,7 @@ function DeleteTask(ev) {
             if (json.status == 0) {
                 location.reload();
             }
-            // else {
-            //     LogOut();
-            // }
+
         }
     };
     xhr.send();
