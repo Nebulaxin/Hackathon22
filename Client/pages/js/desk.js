@@ -1,99 +1,88 @@
 function sendJSON() {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
+    var find = urlParams.has("findTag");
     let sign_in = document.querySelector('.username');
 
     var xhr = new XMLHttpRequest();
-    var url = "http://185.177.218.151:5050/getProfile?data=" + encodeURIComponent(JSON.stringify({"token": localStorage.getItem('token')}));
+    var url = "http://185.177.218.151:5050/getProfile?data=" + encodeURIComponent(JSON.stringify({ "token": localStorage.getItem('token') }));
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
-  
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var json = JSON.parse(xhr.responseText);
-            if (json.status == 0){
+            if (json.status == 0) {
                 sign_in.innerHTML = json.username;
             }
-            // else {
-            //     LogOut();
-            // }
-        }
-    };
+        };
+    }
+
     xhr.send();
 
+    if (find) {
+
+    }
+    else {
+
+    }
     var xhr2 = new XMLHttpRequest();
     let name = document.querySelector('#name');
-    var url = "http://185.177.218.151:5050/getCards?data=" + encodeURIComponent(JSON.stringify({"id": id}));
+    var url = find
+        ? "http://185.177.218.151:5050/getCardsByTag?data=" + encodeURIComponent(JSON.stringify({ "token": localStorage.getItem('token'), "id": id, "tag": urlParams.get("findTag") }))
+        : "http://185.177.218.151:5050/getCards?data=" + encodeURIComponent(JSON.stringify({ "token": localStorage.getItem('token'), "id": id }));
     xhr2.open("GET", url, true);
     xhr2.setRequestHeader("Content-Type", "application/json");
-  
     xhr2.onreadystatechange = function () {
         if (xhr2.readyState === 4 && xhr2.status === 200) {
             var json = JSON.parse(xhr2.responseText);
-            if (json.status == 0){
+            if (json.status == 0) {
                 name.innerHTML = json.name;
                 var todo = document.getElementById("todo");
                 var progress = document.getElementById("inprogress");
                 var done = document.getElementById("done");
                 const cards = json.cards;
-
-                for (var i = 0; i < cards.length; i++){
-                    var totaltime = cards[i].expires-json.now;
+                for (var i = 0; i < cards.length; i++) {
+                    var totaltime = cards[i].expires - json.now;
                     var hours = Math.floor(totaltime / (1000 * 60 * 60));
                     var days = Math.floor(hours / 24);
                     hours %= 24;
-                    var timeLeft = "" + (days == 0 ? "" : days + " days") + " " + hours + " hours"; 
+                    var timeLeft = "" + (days == 0 ? "" : days + " days") + " " + hours + " hours";
+                    const card = `
+                    <div class="task" id="${cards[i].id}" draggable="true" ondragstart="drag(event)" style="word-wrap: break-word;">
+                        <span style="font-size: 30px;">${cards[i].name}</span><br/>
+                        <span>${cards[i].description}</span><br/><br/>
+                        <span>Time: ${timeLeft}</span><br/>
+                        <span>Tag: ${cards[i].tag}</span><br/>
+                        <a id="${cards[i].id}" onclick="DeleteTask(event)" style="color: black; cursor: pointer; text-decoration: underline;">Delete</a>
+                
+                    </div>
+                    `;
                     if (cards[i].status == "todo") {
-
-                        todo.innerHTML += `
-                <div class="task" id="${cards[i].id}" draggable="true" ondragstart="drag(event)" style="word-wrap: break-word;">
-                    <span style="font-size: 30px;">${cards[i].name}</span><br/>
-                    <span>${cards[i].description}</span><br/><br/>
-                    <span>Time: ${timeLeft}</span><br/>
-                    <a id="${cards[i].id}" onclick="DeleteTask(event)" style="color: black; cursor: pointer; text-decoration: underline;">Delete</a>
-            
-                </div>
-                `
+                        todo.innerHTML += card
                     }
                     else if (cards[i].status == "inprogress") {
-                        progress.innerHTML += `
-                <div class="task" id="${cards[i].id}" draggable="true" ondragstart="drag(event)" style="word-wrap: break-word;">
-                    <span style="font-size: 30px;">${cards[i].name}</span><br/>
-                    <span>${cards[i].description}</span><br/><br/>
-                    <span>Time: ${timeLeft}</span><br/>
-                    <a id="${cards[i].id}" onclick="DeleteTask(event)" style="color: black; cursor: pointer; text-decoration: underline;">Delete</a>
-            
-                </div>
-                `
+                        progress.innerHTML += card;
                     }
                     else if (cards[i].status == "done") {
-                        done.innerHTML += `
-                <div class="task" id="${cards[i].id}" draggable="true" ondragstart="drag(event)" style="word-wrap: break-word;">
-                    <span style="font-size: 30px;">${cards[i].name}</span><br/>
-                    <span>${cards[i].description}</span><br/><br/>
-                    <span>Time: ${timeLeft}s</span><br/>
-                    <a id="${cards[i].id}" onclick="DeleteTask(event)" style="color: black; cursor: pointer; text-decoration: underline;">Delete</a>
-            
-                </div>
-                `
+                        done.innerHTML += card;
                     }
-
                 }
-
-                    }
-            else{
+            }
+            else {
                 alert('Данной страницы не существует')
                 window.location.href = "../html/profile.html";
             }
         }
     };
     xhr2.send();
-  }
-  
-  function LogOut() {
+}
+
+
+function LogOut() {
     localStorage.removeItem('token');
     window.location.href = "../html/sign_in.html";
-  }
+}
 
 
 function drag(ev) {
@@ -112,14 +101,14 @@ function drop(ev) {
     const urlParams = new URLSearchParams(window.location.search);
 
     var xhr = new XMLHttpRequest();
-    var url = "http://185.177.218.151:5050/moveCard?data=" + encodeURIComponent(JSON.stringify({"id": parseInt(data), "status": ev.currentTarget.id}));
+    var url = "http://185.177.218.151:5050/moveCard?data=" + encodeURIComponent(JSON.stringify({ "id": parseInt(data), "status": ev.currentTarget.id }));
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
-  
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var json = JSON.parse(xhr.responseText);
-            if (json.status != 0){
+            if (json.status != 0) {
                 alert("Something went wrong!");
             }
 
@@ -128,7 +117,7 @@ function drop(ev) {
     xhr.send();
 }
 
-function createTask(){
+function createTask() {
     var x = document.getElementById("inprogress");
     var y = document.getElementById("done");
     var z = document.getElementById("create-new-task-block");
@@ -143,7 +132,7 @@ function createTask(){
     }
 }
 
-function saveTask(){
+function saveTask() {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
     const tag = document.getElementById("task-tag").value;
@@ -152,34 +141,38 @@ function saveTask(){
     var description = document.getElementById("task-description").value;
 
     var xhr = new XMLHttpRequest();
-    var url = "http://185.177.218.151:5050/addCard?data=" + encodeURIComponent(JSON.stringify({"token": localStorage.getItem('token'), "id": parseInt(id), "tag": tag,
-"expires": parseInt(time), "description": description, "name": name}));
+    var url = "http://185.177.218.151:5050/addCard?data=" + encodeURIComponent(JSON.stringify({
+        "token": localStorage.getItem('token'), "id": parseInt(id), "tag": tag,
+        "expires": parseInt(time), "description": description, "name": name
+    }));
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
-  
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var json = JSON.parse(xhr.responseText);
-            if (json.status == 0){
+            if (json.status == 0) {
                 var todo = document.getElementById("todo");
                 var taskName = document.getElementById("task-name").value;
                 var description = document.getElementById("task-description").value;
                 var time = document.getElementById("task-time").value;
-            
+                var tag = document.getElementById("task-tag").value;
+
                 if (description.length > 192) {
                     alert("Превышено макс количество символов в описании");
                     return;
                 }
-                
+
                 if (taskName.length > 12) {
                     alert("Превышено макс количество символов в названии");
                     return;
                 }
-                
+
                 todo.innerHTML += `
                 <div class="task" id="${json.id}" draggable="true" ondragstart="drag(event)" style="word-wrap: break-word;">
                     <span style="font-size: 30px;">${taskName}</span><br/>
                     <span>${description}</span><br/><br/>
+                    <span>Tag: ${tag}</span><br/>
                     <span>Time: ${time}d</span><br/>
                     <a id="${json.id}" onclick="DeleteTask(event)" style="color: black; cursor: pointer; text-decoration: underline;">Delete</a>
             
@@ -194,16 +187,16 @@ function saveTask(){
     xhr.send();
 }
 
-function DeleteTask(ev){
+function DeleteTask(ev) {
     var xhr = new XMLHttpRequest();
-    var url = "http://185.177.218.151:5050/deleteCard?data=" + encodeURIComponent(JSON.stringify({"token": localStorage.getItem('token'), "id": parseInt(ev.target.id)}));
+    var url = "http://185.177.218.151:5050/deleteCard?data=" + encodeURIComponent(JSON.stringify({ "token": localStorage.getItem('token'), "id": parseInt(ev.target.id) }));
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
-  
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var json = JSON.parse(xhr.responseText);
-            if (json.status == 0){
+            if (json.status == 0) {
                 location.reload();
             }
             // else {
@@ -214,26 +207,30 @@ function DeleteTask(ev){
     xhr.send();
 }
 
-function Find(){
+function Find() {
     const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
-    var tag = document.querySelector(".find").value;
+    var tag = document.querySelector(".input").value;
 
-    var xhr = new XMLHttpRequest();
-    var url = "http://185.177.218.151:5050/deleteCard?data=" + encodeURIComponent(JSON.stringify({"id": parseInt(is), "tag": tag}));
-    xhr.open("GET", url, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-  
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var json = JSON.parse(xhr.responseText);
-            if (json.status == 0){
-                location.reload();
-            }
-            // else {
-            //     LogOut();
-            // }
-        }
-    };
-    xhr.send();
+    urlParams.append("findTag", tag);
+
+    window.location.href = "desk_page.html?" + urlParams.toString();
+
+
+    // var xhr = new XMLHttpRequest();
+    // var url = "http://185.177.218.151:5050/deleteCard?data=" + encodeURIComponent(JSON.stringify({ "id": parseInt(is), "tag": tag }));
+    // xhr.open("GET", url, true);
+    // xhr.setRequestHeader("Content-Type", "application/json");
+
+    // xhr.onreadystatechange = function () {
+    //     if (xhr.readyState === 4 && xhr.status === 200) {
+    //         var json = JSON.parse(xhr.responseText);
+    //         if (json.status == 0) {
+    //             location.reload();
+    //         }
+    //         // else {
+    //         //     LogOut();
+    //         // }
+    //     }
+    // };
+    // xhr.send();
 }
