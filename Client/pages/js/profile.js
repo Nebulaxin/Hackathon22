@@ -20,7 +20,7 @@ function sendJSON() {
           todo.innerHTML += `
                       <div class="card">
                       <h1>
-                        <a id="a_card" href="http://127.0.0.1:5500/Client/pages/html/desk_page.html?id=${desks[i].id}" style="color: black">${desks[i].name}</a>
+                        <a id="a_card" href="desk_page.html?id=${desks[i].id}" style="color: black">${desks[i].name}</a>
                       </h1>
                     </div>
               `

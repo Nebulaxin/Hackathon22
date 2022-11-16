@@ -163,7 +163,7 @@ function saveTask() {
                     return;
                 }
 
-                if (taskName.length > 12) {
+                if (taskName.length > 36) {
                     alert("Превышено макс количество символов в названии");
                     return;
                 }
@@ -178,6 +178,11 @@ function saveTask() {
             
                 </div>
                 `
+
+                document.getElementById("task-name").value = "";
+                document.getElementById("task-description").value = "";
+                document.getElementById("task-time").value = "";
+                document.getElementById("task-tag").value = "";
             }
             // else {
             //     LogOut();
