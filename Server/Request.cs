@@ -18,6 +18,7 @@ namespace Server
                 Logger.Log($"Unknown request: {reqString}", Logger.Level.Error);
                 return null;
             }
+            await Logger.LogAsync(reqString);
 
             var reqText = req.QueryString["data"];
             await Logger.LogAsync(reqText);

@@ -41,7 +41,8 @@ namespace Server.Responses
 
             if (Util.ContainsBadSymbols(tag)) return Util.BadSymbols;
             if (Util.ContainsBadSymbols(name)) return Util.BadSymbols;
-            if (Util.ContainsBadSymbols(tag)) return Util.BadSymbols;
+            if (name.EmptyOrWhitespaces()) return Util.BadSymbols;
+            if (description.EmptyOrWhitespaces()) return Util.BadSymbols;
 
 
             var com = Server.Desks.CreateCommand(getAdmin);

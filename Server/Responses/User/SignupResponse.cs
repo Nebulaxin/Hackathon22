@@ -17,7 +17,7 @@ namespace Server.Responses
             try
             {
                 username = request["username"];
-                password = Hash.HashString64(request["password"]);
+                password = Util.HashString64(request["password"]);
                 name = request["name"];
             }
             catch
@@ -32,7 +32,7 @@ namespace Server.Responses
 
             if (Util.ContainsBadSymbols(username)) return Util.BadSymbols;
             if (Util.ContainsBadSymbols(password)) return Util.BadSymbols;
-
+            if (name.EmptyOrWhitespaces()) return Util.BadSymbols;
 
             var com = Server.Users.CreateCommand(existsCommand);
             com.Parameters.AddWithValue(":username", username);

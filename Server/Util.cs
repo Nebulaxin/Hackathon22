@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NiceJson;
@@ -27,7 +30,27 @@ namespace Server
         public static string OKResult(this JsonObject obj) => obj.CodeResult(Code.OK);
 
         private static Regex badSymbols = new Regex("/[^\\(a-zA-Z0-9_\\)]/m");
-        public static bool ContainsBadSymbols(string s) => badSymbols.Match(s).Success;
+        public static bool ContainsBadSymbols(string s) => s.EmptyOrWhitespaces() || badSymbols.Match(s).Success;
+        public static bool EmptyOrWhitespaces(this string s) => string.IsNullOrEmpty(s) || string.IsNullOrWhiteSpace(s);
+
+        public static byte[] GetHash(string inputString)
+        {
+            using (var sha = SHA256.Create())
+                return sha.ComputeHash(Encoding.UTF8.GetBytes(inputString));
+        }
+
+        public static string HashString64(string inputString) => Convert.ToBase64String(GetHash(inputString));
+
+        public static async Task<long> GetUserId(string token)
+        {
+            const string getUserCommand = "SELECT id FROM Users WHERE (token = :token)";
+            var com = Server.Users.CreateCommand(getUserCommand);
+            com.Parameters.AddWithValue("token", token);
+            long id;
+            using(var reader = await com.ExecuteReaderAsync())
+                id = reader.GetInt64(0);
+            return id;
+        }
 
         public enum Code
         {

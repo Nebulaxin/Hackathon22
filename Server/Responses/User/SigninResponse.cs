@@ -23,7 +23,7 @@ namespace Server.Responses
             try
             {
                 username = request["username"];
-                password = Hash.HashString64(request["password"]);
+                password = Util.HashString64(request["password"]);
             }
             catch
             {
