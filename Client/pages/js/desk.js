@@ -186,7 +186,9 @@ function saveTask() {
                 var description = document.getElementById("task-description").value;
                 var time = document.getElementById("task-time").value;
                 var tag = document.getElementById("task-tag").value;
-
+                if (time == 0 || time == '' || time == ' ') {
+                    time = 'no restrictions';
+                }
                 if (description.length > 192) {
                     alert("Превышено макс количество символов в описании");
                     return;
@@ -201,7 +203,7 @@ function saveTask() {
                 <div class="task" id="${json.id}" draggable="true" ondragstart="drag(event)" style="word-wrap: break-word;">
                     <span style="font-size: 30px;">${taskName}</span><br/>
                     <span>${description}</span><br/><br/>
-                    <span>Tag: ${tag}</span><br/>
+                    <span>Tag: <a onclick="FindWithTag('${tag}');" href="#" style="color: black;">#${tag}</a></span><br/>
                     <span>Time: ${time}d</span><br/>
                     <a id="${json.id}" onclick="DeleteTask(event)" style="color: black; cursor: pointer; text-decoration: underline;">Delete</a>
             
