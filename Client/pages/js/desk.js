@@ -22,6 +22,8 @@ function sendJSON() {
 
     var xhr2 = new XMLHttpRequest();
     let name = document.querySelector('#name');
+    let tt = document.querySelector('#tt');
+
     var url = find
         ? "http://185.177.218.151:5050/getCardsByTag?data=" + encodeURIComponent(JSON.stringify({ "token": localStorage.getItem('token'), "id": parseInt(id), "tag": urlParams.get("findTag") }))
         : "http://185.177.218.151:5050/getCards?data=" + encodeURIComponent(JSON.stringify({ "token": localStorage.getItem('token'), "id": parseInt(id) }));
@@ -30,30 +32,60 @@ function sendJSON() {
     xhr2.onreadystatechange = function () {
         if (xhr2.readyState === 4 && xhr2.status === 200) {
             var json = JSON.parse(xhr2.responseText);
+
             if (json.status == 0) {
                 name.innerHTML = json.name;
+                tt.innerHTML = json.name;
                 var todo = document.getElementById("todo");
                 var progress = document.getElementById("inprogress");
                 var done = document.getElementById("done");
+                var but = document.getElementById("task-button-block");
                 const cards = json.cards;
+
+                if (json.isAdmin) {
+                    but.innerHTML += '<button id="task-button" onclick="createTask()" style="margin-top: 10px">Create new card</button>';
+                }
+
                 for (var i = 0; i < cards.length; i++) {
-                    var totaltime = cards[i].expires - json.now;
-                    var hours = Math.floor(totaltime / (1000 * 60 * 60));
-                    var days = Math.floor(hours / 24);
-                    hours %= 24;
-                    var timeLeft = "" + (days == 0 ? "" : days + " days") + " " + hours + " hours";
-                    const card = `
+                    if (cards[i].expires != -1) {
+                        var totaltime = cards[i].expires - json.now;
+                        var hours = Math.floor(totaltime / (1000 * 60 * 60));
+                        var days = Math.floor(hours / 24);
+                        hours %= 24;
+                        var timeLeft = "" + (days == 0 ? "" : days + " days") + " " + hours + " hours";
+                    }
+                    else {
+                        var timeLeft = "no restrictions";
+                    }
+
+                    var tag = cards[i].tag;
+
+                    if (json.isAdmin) {
+
+                        var card = `
+                        <div class="task" id="${cards[i].id}" draggable="true" ondragstart="drag(event)" style="word-wrap: break-word;">
+                            <span style="font-size: 30px;">${cards[i].name}</span><br/>
+                            <span>${cards[i].description}</span><br/><br/>
+                            <span>Time: ${timeLeft}</span><br/>
+                            <span>Tag: <a onclick="FindWithTag('${tag}');" href="#" style="color: black;">#${tag}</a></span><br/>
+                            <a id="${cards[i].id}" onclick="DeleteTask(event)" style="color: black; cursor: pointer; text-decoration: underline;">Delete</a>
+                    
+                        </div>
+                        `;
+                    }
+                    else {
+                        var card = `
                     <div class="task" id="${cards[i].id}" draggable="true" ondragstart="drag(event)" style="word-wrap: break-word;">
                         <span style="font-size: 30px;">${cards[i].name}</span><br/>
                         <span>${cards[i].description}</span><br/><br/>
                         <span>Time: ${timeLeft}</span><br/>
-                        <span>Tag: ${cards[i].tag}</span><br/>
-                        <a id="${cards[i].id}" onclick="DeleteTask(event)" style="color: black; cursor: pointer; text-decoration: underline;">Delete</a>
-                
+                        <span>Tag: <a onclick="FindWithTag('${tag}');" href="#" style="color: black;">#${tag}</a></span><br/>               
                     </div>
                     `;
+                    }
+
                     if (cards[i].status == "todo") {
-                        todo.innerHTML += card
+                        todo.innerHTML += card;
                     }
                     else if (cards[i].status == "inprogress") {
                         progress.innerHTML += card;
@@ -131,7 +163,10 @@ function saveTask() {
     const id = urlParams.get('id');
     const tag = document.getElementById("task-tag").value;
     const name = document.getElementById("task-name").value;
-    const time = document.getElementById("task-time").value;
+    var time = document.getElementById("task-time").value;
+    if (time == '0' || time == ' ' || time == '') {
+        time = "-1";
+    }
     var description = document.getElementById("task-description").value;
 
     var xhr = new XMLHttpRequest();
@@ -205,29 +240,19 @@ function DeleteTask(ev) {
 }
 
 function Find() {
-    const urlParams = new URLSearchParams(window.location.search);
     var tag = document.querySelector(".input").value;
+    FindWithTag(tag);
+}
 
-    urlParams.append("findTag", tag);
+function FindWithTag(tag) {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (tag != "") {
+        urlParams.set("findTag", tag);
+    }
+    else {
+        urlParams.delete("findTag");
+    }
 
     window.location.href = "desk_page.html?" + urlParams.toString();
-
-
-    // var xhr = new XMLHttpRequest();
-    // var url = "http://185.177.218.151:5050/deleteCard?data=" + encodeURIComponent(JSON.stringify({ "id": parseInt(is), "tag": tag }));
-    // xhr.open("GET", url, true);
-    // xhr.setRequestHeader("Content-Type", "application/json");
-
-    // xhr.onreadystatechange = function () {
-    //     if (xhr.readyState === 4 && xhr.status === 200) {
-    //         var json = JSON.parse(xhr.responseText);
-    //         if (json.status == 0) {
-    //             location.reload();
-    //         }
-    //         // else {
-    //         //     LogOut();
-    //         // }
-    //     }
-    // };
-    // xhr.send();
 }
+

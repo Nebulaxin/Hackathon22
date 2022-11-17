@@ -1,40 +1,40 @@
 .header {
   text-align: center;
-  font-family: "Poppins", sans-serif;
-  font-size: 85px;
-  background: linear-gradient(45deg, #ffffff, #6198e0);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: animated-gradient 5s infinite alternate-reverse;
-  background-size: 200%;
-  background-position: -200%;
+  font-family: "Rubik Mono One", sans-serif;
+  font-size: 84px;
+  color: #fff;
+  transition: 1s;
 }
 
-@keyframes animated-gradient {
-  to {
-    background-position: 200%;
-  }
+.header:hover {
+  font-size: 90px;
+}
+
+.text {
+  color: #fff;
+  transition: 1s;
 }
 
 .top-regist {
   text-align: right;
-  font-family: "Poppins", sans-serif;
+  font-family: "Heebo", sans-serif;
   font-size: 20px;
 }
 
 .top-regist-a {
+  font-family: "Heebo", sans-serif;
   text-decoration: none;
-  color: black;
+  color: rgb(255, 255, 255);
   margin-right: 20px;
   transition: 0.75s;
 }
 
 .top-regist-a:hover {
-  color: #550086;
+  color: #8b4caf;
 }
 
 .box {
   text-align: center;
-  font-family: "Poppins", sans-serif;
+  font-family: "Rubik Mono One", sans-serif;
   font-size: 30px;
 }

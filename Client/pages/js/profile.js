@@ -18,21 +18,17 @@ function sendJSON() {
 
         for (var i = 0; i < desks.length; i++) {
           todo.innerHTML += `
+          <a id="a_card" href="desk_page.html?id=${desks[i].id}">
                       <div class="card">
-                      <h1>
-                        <a id="a_card" href="desk_page.html?id=${desks[i].id}" style="color: black">${desks[i].name}</a>
+                      <h1   style="rgb(15, 14, 14)">
+                        ${desks[i].name}
                       </h1>
-                    </div>
+                    </div></a>
               `
 
 
         }
       }
-      else if (json.status == 8) {
-        alert("maximum desks per user: 4");
-      }
-
-
     }
   };
   xhr.send();
@@ -57,8 +53,9 @@ function SendDesk() {
       if (json.status == 0) {
         window.location.href = "../html/desk_page.html?id=" + json.id;
       }
-      else if (json.status == 8) {
-        alert("maximum desks per user: 4");
+      else if (json.status == 7) {
+        alert("Desk name can't be empty");
+
       }
     }
   };

@@ -3,17 +3,18 @@
   <head>
     <script src="../js/desk.js"></script>
     <link rel="stylesheet" href="../css/desk_page.css" />
-    <link rel="stylesheet" href="../../../css/main.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Heebo&family=Oxygen+Mono&family=Rubik+Mono+One&display=swap"
       rel="stylesheet"
     />
     <meta charset="UTF-8" />
-    <title>Desk Lambda</title>
+    <title id="tt">Desk Lambda</title>
+    <link rel="icon" href="../../favicon.png" />
+
   </head>
-  <body style="background: linear-gradient(90deg, #a30293 30%, #5436ce)" onload="sendJSON()">
+  <body style="background-color: #222327;" onload="sendJSON()">
     <div class="header">
       <a href="profile.html"
         ><img
@@ -23,11 +24,16 @@
       <a href="profile.html" style="color: Black"
         ><h2 class="username"></h2></a
       >
-      <div class="task-button-block">
-        <button id="task-button" onclick="createTask()">Create new card</button> 
-        <input class="input" id="tag" type="text" placeholder="Tag" />
-        <button id="task-button" class="find" onclick="Find()">Find</button> 
+
+      <div style=" float: right;
+        display: block;
+        font-family: 'Poppins', sans-serif;
+        margin-right: 4%;"> <input class="input" id="tag" type="text" placeholder="Tag"/>
+          <button id="task-button" class="find" onclick="Find()">Find</button> </div>
+
+      <div class="task-button-block" id="task-button-block">
         </div>
+        
     </div>
 
     <h1 style="text-align: center; font-size: 45px;" id="name"></h1>
@@ -71,7 +77,7 @@
           </div>
       </div>
   </div>
-  <h1 style="text-align: center;">To add a participant, send him a page link
+  <h1 style="text-align: center; color: white;">To add a participant, send him a page link
   </h1>
   </body>
 </html>

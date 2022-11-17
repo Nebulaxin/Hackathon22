@@ -1,3 +1,7 @@
+* {
+  color: rgb(66, 60, 60);
+}
+
 .ProfileImg {
   height: 45px;
   width: 45px;
@@ -8,13 +12,18 @@
 }
 
 .username {
-  font-family: "Poppins", sans-serif;
+  font-family: "Oxygen Mono", monospace;
   display: inline-block;
   margin-left: 10px;
   vertical-align: top;
-  color: Black;
+  color: rgb(255, 255, 255);
+  letter-spacing: 2px;
+  transition: 1s;
 }
 
+.username:hover {
+  color: #ffffff98;
+}
 .header {
   display: inline-block;
   width: 100%;
@@ -22,8 +31,21 @@
 
 .exit {
   float: right;
-  font-family: "Poppins", sans-serif;
+  font-family: "Heebo", sans-serif;
   margin-right: 4%;
+}
+
+.exit a {
+  font-family: "Heebo", sans-serif;
+  display: block;
+  color: white;
+  font-size: x-large;
+  margin: 10px;
+  transition: 0.5s;
+}
+
+.exit a:hover {
+  color: #ffffff6e;
 }
 /* стилизация содержимого страницы */
 body {
@@ -32,8 +54,6 @@ body {
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
-  color: #292b2c;
-  background-color: #fff;
 }
 
 /* свойства модального окна по умолчанию */
@@ -152,32 +172,30 @@ body {
 }
 
 .desks {
-  overflow: hidden;
-  display: flex;
-
-  flex-direction: row;
-
-  justify-content: flex-start;
+  margin: 0 auto;
 }
 
 .card {
-  margin: auto 20px;
+  float: left;
   min-width: 23%;
-  background-color: rgba(255, 255, 255, 0.1);
+  margin: 10px;
+  background-color: #404146;
   word-wrap: break-word;
+  transition: 0.5s;
+  box-shadow: 5px 5px 15px #0cefff, -5px -5px 15px #0077ff,
+    -5px 5px 15px #c208d3, 5px -5px 15px #6708d3;
+  cursor: pointer;
+}
+
+.card:hover {
+  background-color: #4b4c52;
+  box-shadow: 1px 1px 6px #0077ff, -1px -1px 6px #0cefff;
 }
 
 .card h1 {
   text-align: center;
-  color: Black;
-  font-family: "Poppins", sans-serif;
-}
-
-.card p {
-  font-family: "Poppins", sans-serif;
-  font-size: 25px;
-  padding: 0px;
-  margin: 0px;
+  color: rgb(15, 14, 14);
+  font-family: "Heebo", sans-serif;
 }
 
 .form {
@@ -199,14 +217,14 @@ body {
 }
 
 .btn {
-  font-family: "Poppins", sans-serif;
+  font-family: "Heebo", sans-serif;
 
   display: block;
   width: 100%;
   padding: 8px 8px;
 
   border: 0;
-  background-color: #4f059e;
+  background-color: #1c6596;
   cursor: pointer;
 
   font-size: 16px;
@@ -215,41 +233,7 @@ body {
 }
 
 .btn:hover {
-  background-color: #633792;
-}
-
-hr {
-  border: 0;
-  height: 1px;
-  background: #000;
-  background-image: -webkit-linear-gradient(
-    left,
-    rgb(90, 76, 76),
-    rgb(27, 26, 26),
-    rgb(82, 72, 72)
-  );
-  background-image: -moz-linear-gradient(
-    left,
-    rgb(94, 79, 79),
-    rgb(43, 39, 39),
-    rgb(88, 78, 78)
-  );
-  background-image: -ms-linear-gradient(
-    left,
-    rgb(95, 80, 80),
-    rgb(36, 32, 32),
-    rgb(73, 67, 67)
-  );
-  background-image: -o-linear-gradient(
-    left,
-    rgb(75, 64, 64),
-    rgb(58, 53, 53),
-    rgb(77, 70, 70)
-  );
-}
-
-#a_card:hover {
-  text-decoration: underline;
+  background-color: #1677b8;
 }
 
 #a_card {
@@ -260,6 +244,16 @@ hr {
   text-decoration: none;
 }
 
-.right:hover {
-  text-decoration: underline;
+.head {
+  text-align: center;
+  color: Black;
+  font-size: xx-large;
+  margin-bottom: 45px;
+  font-family: "Rubik Mono One", sans-serif;
+  font-size: 50px;
+  color: rgb(255, 255, 255);
+  text-shadow: 10px 10px 60px #2400ff, -10px -10px 60px #7e2bd9;
+  -webkit-text-stroke: 1px #ffffff;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 5px;
 }
