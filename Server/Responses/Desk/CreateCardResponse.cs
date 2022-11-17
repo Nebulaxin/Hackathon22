@@ -1,10 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Data.SQLite;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using NiceJson;
 
@@ -18,6 +12,7 @@ namespace Server.Responses
         private bool badRequest;
         private string adminToken, tag, name, description;
         private long id, expires;
+        
         public CreateCardResponse(JsonNode node) : base(node)
         {
             try
@@ -63,7 +58,7 @@ namespace Server.Responses
             var now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             com.Parameters.AddWithValue("created", now);
             com.Parameters.AddWithValue("now", now);
-            com.Parameters.AddWithValue("expires", now + (long)TimeSpan.FromDays(expires).TotalMilliseconds);
+            com.Parameters.AddWithValue("expires", expires == -1 ? -1 : now + (long)TimeSpan.FromDays(expires).TotalMilliseconds);
 
             long cardId = (long)await com.ExecuteScalarAsync();
 
@@ -78,7 +73,6 @@ namespace Server.Responses
         /*
         
         {
-            
             "cards":
             [
                 {

@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -47,7 +46,6 @@ namespace Server
             l.Prefixes.Add(host);
 
             l.Start();
-            //var encoding = new UTF8Encoding(false);
             while (!mustExit && l.IsListening)
             {
                 try
@@ -56,7 +54,7 @@ namespace Server
                     if(mustExit) break;
                     using (var sw = new StreamWriter(context.Response.OutputStream, Encoding.UTF8))
                     {
-                        if (context.Request.HttpMethod != HttpMethod.Options.Method)
+                        if (context.Request.HttpMethod == HttpMethod.Get.Method)
                         {
                             var resp = await Request.CreateResponse(context.Request, context.Response);
 
@@ -66,7 +64,7 @@ namespace Server
                             await Logger.LogAsync(answer);
                             await Logger.LogAsync(DateTime.UtcNow);
                         }
-                        //await Logger.LogAsync(context.Request.Headers["Origin"]);
+
                         context.Response.AddHeader("Access-Control-Allow-Origin", "*");
                         context.Response.AddHeader("Access-Control-Allow-Headers", "*");
                         context.Response.AddHeader("Access-Control-Expose-Headers", "*");
@@ -76,7 +74,6 @@ namespace Server
 
                         context.Response.ContentEncoding = Encoding.UTF8;
                         context.Response.StatusCode = (int)HttpStatusCode.OK;
-                        //await Logger.LogAsync(context.Response.Headers["Access-Control-Allow-Origin"]);
                     }
                 }
                 catch (ObjectDisposedException) { }
@@ -106,5 +103,5 @@ namespace Server
             }
             await server.RunAsync(host);
         }
-    }//bgccY6IsQnBTwY69d6hVEg,,
+    }
 }

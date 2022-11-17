@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Data.SQLite;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using NiceJson;
 
@@ -18,6 +11,7 @@ namespace Server.Responses
         private bool badRequest;
         private string status;
         private long id;
+
         public MoveCardResponse(JsonNode node) : base(node)
         {
             try

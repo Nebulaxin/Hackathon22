@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Data.SQLite;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using NiceJson;
 
@@ -13,8 +6,10 @@ namespace Server.Responses
     public class CreateDeskResponse : Response
     {
         private const string command = "INSERT INTO Desks (name, admin, users) VALUES (:name, :admin, '[]');SELECT id FROM Desks WHERE (rowid=last_insert_rowid())";
+        
         private bool badRequest;
         private string token, name;
+        
         public CreateDeskResponse(JsonNode node) : base(node)
         {
             try

@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Data;
-using System.Data.SQLite;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using NiceJson;
 
@@ -15,7 +8,6 @@ namespace Server.Responses
         private const string command = "SELECT username, password, token FROM Users";
 
         private string username, password;
-
         private bool badRequest;
 
         public SigninResponse(JsonNode request) : base(request)

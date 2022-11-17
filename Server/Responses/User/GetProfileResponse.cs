@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Data.SQLite;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using NiceJson;
 
@@ -14,8 +7,10 @@ namespace Server.Responses
     {
         private const string getUsersCommand = "SELECT username, name, token FROM Users WHERE (token = :token)",
                                 getDesksCommand = "SELECT id, name FROM Desks WHERE (admin = :admin)";
+        
         private bool badRequest;
         private string token;
+
         public GetProfileResponse(JsonNode node) : base(node)
         {
             try

@@ -1,10 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Data.SQLite;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using NiceJson;
 
@@ -18,6 +12,7 @@ namespace Server.Responses
         private string token;
         private bool badRequest;
         private long id;
+        
         public GetAllCardsResponse(JsonNode node) : base(node)
         {
             try
@@ -64,43 +59,10 @@ namespace Server.Responses
             var result = new JsonObject();
             result.Add("cards", allCards);
             result.Add("name", deskName);
-            result.Add("isAdmin", deskName);
+            result.Add("isAdmin", isAdmin);
             result.Add("now", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
 
             return result.OKResult();
         }
-
-        /*
-        { // array
-            "server":
-            { // tag
-                
-                "users":
-                [
-                    "user1",
-                    "user2",
-                    "user3",
-                    "user4",
-                ],
-                "cards":
-                [
-                    {
-                        "id":0,
-                        "name":"task1",
-                        "description":"",
-                        "expires":"-1",
-                        "now":"2084993434",
-                    },
-                    {
-                        "id":1,
-                        "name":"task2",
-                        "description":"description2",
-                        "expires":"209962940",
-                        "now":"2084993434",
-                    },
-                ]
-            }
-        ]
-        */
     }
 }
